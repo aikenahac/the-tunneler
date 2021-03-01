@@ -11,7 +11,7 @@ console.log("TOKEN: " + TOKEN);
 console.log("Tunnel: " + config.tunnel);
 
 client.once('ready', () => {
-	console.log(`${client.user.tag} is running..`)
+	console.log(`Logged in as ${client.user.tag}`)
 	config.tunnel.forEach(channelId => initWebhooks(channelId))
 });
 
@@ -33,15 +33,33 @@ client.on('message', async message => {
                 return webhook.owner.id === client.user.id && webhook.name === 'The Tunneler';
             })
 
+            let messageToSend;
+            let imagesArray = [];
 
+            if (message.attachments.size > 0) {
+                message.attachments.forEach(attachment => {
+                    const url = attachment.url;
 
-            console.log(myWebhooks);
+                    imagesArray.push(url);
+                })
+            }
 
-			myWebhooks.first().send(message.content || '', {
+            if (imagesArray[0] === undefined) {
+                messageToSend = message.content;
+            } else if((message.content === null || message.content === '') && imagesArray[0] !== undefined) {
+                messageToSend = imagesArray;
+            } else {
+                messageToSend = message.content + "\n" + imagesArray;
+            }
+
+            console.log(messageToSend);
+
+			myWebhooks.first().send(messageToSend || '.', {
 				username: message.author.username,
 				avatarURL: message.author.avatarURL(),
 				embeds: message.embeds
 			})
+            console.log("Sent message!");
 		})
 	} catch (error) {
 		console.log(error)
