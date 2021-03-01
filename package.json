@@ -1,0 +1,27 @@
+{
+  "name": "the-tunneler",
+  "version": "1.0.0",
+  "description": "A tunneling bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aikenahac/the-tunneler.git"
+  },
+  "keywords": [
+    "discord",
+    "bot"
+  ],
+  "author": "Aiken Tine Ahac",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aikenahac/the-tunneler/issues"
+  },
+  "homepage": "https://github.com/aikenahac/the-tunneler#readme",
+  "dependencies": {
+    "discord.js": "^12.5.1",
+    "dotenv": "^8.2.0"
+  }
+}
