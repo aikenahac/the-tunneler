@@ -20,6 +20,7 @@ client.on('message', async message => {
 
 	channels.forEach(async channelId => {
 		const channel = client.channels.cache.get(channelId);
+		const serverName = message.guild.name;
 
 		const webhooks = await channel.fetchWebhooks()
 		const myWebhooks = webhooks.filter(webhook => {
@@ -40,6 +41,7 @@ client.on('message', async message => {
 		}
 
 		let member;
+
 		try {
 			member = await channel.guild.members.fetch(message.author.id);
 		} catch (e) {
@@ -54,10 +56,10 @@ client.on('message', async message => {
 			messageToSend = message.content + "\n" + imagesArray;
 		}
 
-		console.log(`${message.author.username} > ${messageToSend}`);
+		console.log(`${message.author.username} [${serverName}] > ${messageToSend}`);
 		
 		myWebhooks.first().send(messageToSend || 'No content provided', {
-			username: member ? member.nickname : message.author.username,
+			username: member ? `${member.nickname}  [${serverName}]` : `${message.author.username} [${serverName}]`,
 			avatarURL: message.author.avatarURL(),
 			embeds: message.embeds,
 		})
