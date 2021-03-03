@@ -65,10 +65,13 @@ client.on('message', async message => {
 		if (messageToSend.includes('@everyone')) {
 			console.log(`${message.author.tag} tried to mention @everyone...`);
 			messageToSend = "Ne ne boš mentionu everyone. Naslednc bo ban svinja"
+			message.channel.send("Ne ne boš mentionu everyone. Naslednc bo ban svinja");
 			console.log(`Checked msg: ${messageToSend}`);
 		} else if (messageToSend.includes('@here')) {
 			console.log(`${message.author.tag} tried to mention @everyone...`);
 			messageToSend = "Ne ne boš mentionu here. Naslednc bo ban svinja"
+			message.delete();
+			message.channel.send("Ne ne boš mentionu here. Naslednc bo ban svinja");
 			console.log(`Checked msg: ${messageToSend}`);
 		}
 
