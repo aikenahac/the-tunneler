@@ -11,6 +11,12 @@ console.log("Tunnel: " + config.tunnel);
 client.once('ready', () => {
 	console.log(`Logged in as ${client.user.tag}`)
 	config.tunnel.forEach(channelId => initWebhooks(channelId))
+	client.user.setActivity(
+		{
+			name: 'anime <3',
+			type: 'WATCHING'
+		}
+	);
 });
 
 client.on('message', async message => {
