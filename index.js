@@ -62,6 +62,16 @@ client.on('message', async message => {
 			messageToSend = message.content + "\n" + imagesArray;
 		}
 
+		if (messageToSend.includes('@everyone')) {
+			console.log(`${message.author.tag} tried to mention @everyone...`);
+			messageToSend = "Ne ne boš mentionu everyone. Naslednc bo ban svinja"
+			console.log(`Checked msg: ${messageToSend}`);
+		} else if (messageToSend.includes('@here')) {
+			console.log(`${message.author.tag} tried to mention @everyone...`);
+			messageToSend = "Ne ne boš mentionu here. Naslednc bo ban svinja"
+			console.log(`Checked msg: ${messageToSend}`);
+		}
+
 		console.log(`${message.author.username} [${serverName}] > ${messageToSend}`);
 		
 		myWebhooks.first().send(messageToSend || 'No content provided', {
