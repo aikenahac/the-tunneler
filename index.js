@@ -6,6 +6,8 @@ require('dotenv').config();
 
 const TOKEN = process.env.TOKEN;
 
+const blocked = ["530062813373399060"];
+
 console.log("Tunnel: " + config.tunnel);
 
 client.once('ready', () => {
@@ -20,11 +22,23 @@ client.once('ready', () => {
 });
 
 client.on('message', async message => {
+	let isBlocked = false;
+
+	blocked.forEach(userID => {
+		if (message.author.id === userID) isBlocked = true;
+	});
+
+	if (isBlocked) {
+		console.log(`User ${message.author} is blocked`);
+		await message.delete();
+		return;
+	}
+
 	if (!config.tunnel.includes(message.channel.id) || message.webhookID) return;
 
-	const channels = config.tunnel.filter(id => id !== message.channel.id)
+	const channels = config.tunnel.filter(id => id !== message.channel.id);
 
-	channels.forEach(async channelId => {
+	for (const channelId of channels) {
 		const channel = client.channels.cache.get(channelId);
 		const serverName = message.guild.name;
 
@@ -73,13 +87,15 @@ client.on('message', async message => {
 		}
 
 		console.log(`${message.author.username} [${serverName}] > ${messageToSend}`);
-		
+
+
+
 		myWebhooks.first().send(messageToSend || 'No content provided', {
 			username: member ? `${member.nickname}  [${serverName}]` : `${message.author.username} [${serverName}]`,
 			avatarURL: message.author.avatarURL(),
 			embeds: message.embeds,
 		})
-	})
+	}
 })
 
 client.login(TOKEN);
