@@ -24,6 +24,10 @@ client.once('ready', () => {
 client.on('message', async message => {
 	let isBlocked = false;
 
+	if (!config.tunnel.includes(message.channel.id) || message.webhookID) return;
+
+	const channels = config.tunnel.filter(id => id !== message.channel.id);
+
 	blocked.forEach(userID => {
 		if (message.author.id === userID) isBlocked = true;
 	});
@@ -33,10 +37,6 @@ client.on('message', async message => {
 		await message.delete();
 		return;
 	}
-
-	if (!config.tunnel.includes(message.channel.id) || message.webhookID) return;
-
-	const channels = config.tunnel.filter(id => id !== message.channel.id);
 
 	for (const channelId of channels) {
 		const channel = client.channels.cache.get(channelId);
