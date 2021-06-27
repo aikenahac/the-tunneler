@@ -88,10 +88,8 @@ client.on('message', async message => {
 
 		console.log(`${message.author.username} [${serverName}] > ${messageToSend}`);
 
-
-
 		myWebhooks.first().send(messageToSend || 'No content provided', {
-			username: member ? `${member.nickname}  [${serverName}]` : `${message.author.username} [${serverName}]`,
+			username: member.nickname != null ? `${member.nickname}  [${serverName}]` : `${message.author.username} [${serverName}]`,
 			avatarURL: message.author.avatarURL(),
 			embeds: message.embeds,
 		})
